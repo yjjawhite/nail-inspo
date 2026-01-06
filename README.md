@@ -27,6 +27,30 @@ The OpenAPI docs will be available at `http://localhost:8000/docs`.
 - Favorites tied to users for collection and compare flows.
 - Communication card generation that pre-fills structure and risk notes for salons.
 
+## Frontend console
+
+为方便手动验证接口，在仓库内提供了一个无需构建工具的前端（`frontend/`）。它通过浏览器直接调用 FastAPI：
+
+- 标签管理：查看/创建标签。
+- 灵感浏览：按风格、标签筛选，快速创建新灵感。
+- 用户与收藏：创建用户、将灵感加入收藏并查看收藏列表。
+- 沟通卡片：对任意灵感生成沟通卡片预览。
+
+### 启动方式
+
+1. 在一个终端启动 API（需要已有 `.env` 配置）：
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+
+2. 在另一个终端启动静态服务器并打开浏览器：
+   ```bash
+   # 从仓库根目录
+   cd frontend
+   python -m http.server 5173
+   ```
+   然后访问 http://localhost:5173。若后端端口不同，可在页面右上角修改 API 基础地址。
+
 ## Project layout
 
 - `app/config.py` – environment-driven settings.
