@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nail Inspiration Console</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h1>美甲灵感前端控制台</h1>
+      <p>与 FastAPI 后端交互的简易前端：浏览灵感、管理标签、收藏与生成沟通卡片。</p>
+    </div>
+    <div class="env">
+      <label for="apiBase">API 基础地址</label>
+      <input id="apiBase" type="text" value="http://localhost:8000" />
+      <button id="applyBase">应用</button>
+      <span id="envStatus" class="muted"></span>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="section-head">
+        <h2>标签（风格/元素等）</h2>
+        <button data-action="refresh-tags">刷新标签</button>
+      </div>
+      <form id="tagForm" class="inline-form">
+        <input name="name" placeholder="标签名，例如：日系" required />
+        <input name="category" placeholder="类别，例如：风格" required />
+        <button type="submit">创建标签</button>
+      </form>
+      <ul id="tagList" class="pill-list"></ul>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>灵感库</h2>
+        <button data-action="refresh-inspirations">刷新列表</button>
+      </div>
+      <form id="filterForm" class="inline-form">
+        <input name="style" placeholder="按风格筛选（可选）" />
+        <input name="tags" placeholder="按标签筛选，逗号分隔（可选）" />
+        <button type="submit">筛选</button>
+      </form>
+
+      <details class="drawer">
+        <summary>创建新灵感（方便测试）</summary>
+        <form id="inspirationForm" class="stack-form">
+          <input name="title" placeholder="标题" required />
+          <input name="image_url" placeholder="图片链接（可选）" />
+          <textarea name="description" placeholder="描述" rows="2"></textarea>
+          <div class="grid">
+            <input name="style" placeholder="风格" />
+            <input name="color_palette" placeholder="颜色" />
+            <input name="nail_shape" placeholder="甲型" />
+            <input name="length" placeholder="长度" />
+          </div>
+          <div class="grid">
+            <input name="price_estimate" placeholder="预算（数字，可选）" type="number" />
+            <input name="duration_estimate_minutes" placeholder="时长（分钟，可选）" type="number" />
+            <input name="tags" placeholder="标签，逗号分隔" />
+          </div>
+          <button type="submit">提交灵感</button>
+        </form>
+      </details>
+
+      <div id="inspirationGrid" class="grid cards"></div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>用户 & 收藏夹</h2>
+        <button data-action="refresh-favorites">查看收藏</button>
+      </div>
+      <form id="userForm" class="inline-form">
+        <input name="email" type="email" placeholder="用户邮箱" required />
+        <input name="display_name" placeholder="昵称（可选）" />
+        <button type="submit">创建用户</button>
+      </form>
+
+      <form id="favoriteForm" class="inline-form">
+        <input name="user_id" type="number" placeholder="用户 ID" required />
+        <input name="inspiration_id" type="number" placeholder="灵感 ID" required />
+        <button type="submit">添加到收藏</button>
+      </form>
+
+      <form id="favoriteQuery" class="inline-form">
+        <input name="user_id" type="number" placeholder="用户 ID" required />
+        <button type="submit">获取收藏列表</button>
+      </form>
+
+      <div id="favoriteList" class="grid cards"></div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>沟通卡片</h2>
+        <button data-action="refresh-health">检测 API</button>
+      </div>
+      <form id="cardForm" class="stack-form">
+        <div class="grid">
+          <input name="inspiration_id" type="number" placeholder="灵感 ID" required />
+          <input name="difficulty" type="number" placeholder="难度（可选）" min="1" max="5" />
+        </div>
+        <input name="notes" placeholder="制作说明（留空自动生成）" />
+        <input name="risk_notes" placeholder="风险提示（可选）" />
+        <input name="material_suggestions" placeholder="材料替代建议（可选）" />
+        <input name="timing_estimate" placeholder="时间预估（可选）" />
+        <button type="submit">生成沟通卡片</button>
+      </form>
+      <div id="cardPreview" class="card"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="app.js"></script>
+</body>
+</html>
